@@ -1,0 +1,38 @@
+{
+    "contract_version": "1.0",
+    "description": "Canonical inventory for the frozen x-document 1.0 schemas and compatibility fixtures.",
+    "fixtures": [
+        {
+            "file": "tests/Fixtures/Contract/1.0/invoice-request.json",
+            "name": "Invoice",
+            "sha256": "020aa0306ac7df1fa542ddbfeaf720c58ea86cf477aa81acb42349eea5497534"
+        },
+        {
+            "file": "tests/Fixtures/Contract/1.0/receipt-request.json",
+            "name": "Receipt",
+            "sha256": "62ba992fde510f42e0506e063ee517c046c44d03a7d0df26eb4d0dc8effe3322"
+        },
+        {
+            "file": "tests/Fixtures/Contract/1.0/reservation-certificate-request.json",
+            "name": "Reservation Certificate",
+            "sha256": "0f428e8d4101200b9b3409af9fa2370dff313ee735a53bac5bfb653e65830811"
+        }
+    ],
+    "schemas": [
+        {
+            "file": "resources/contracts/x-document/1.0/compilation-request.schema.json",
+            "id": "https://3neti.dev/contracts/x-document/1.0/compilation-request.schema.json",
+            "sha256": "88bf52be36816630ca6c6bcdba5347194e0853cf90bd1c38aa0ec0c96eca4eb2"
+        },
+        {
+            "file": "resources/contracts/x-document/1.0/compilation-result.schema.json",
+            "id": "https://3neti.dev/contracts/x-document/1.0/compilation-result.schema.json",
+            "sha256": "cad240b5f693aa714e8441ef898b7714e77d8e3680428fb5f5e239bfed1d2d5b"
+        },
+        {
+            "file": "resources/contracts/x-document/1.0/resolved-document.schema.json",
+            "id": "https://3neti.dev/contracts/x-document/1.0/resolved-document.schema.json",
+            "sha256": "30deb744e3a5438f1e820fb1a48acf206975b2ee715023c4430d4bf980b914ce"
+        }
+    ]
+}

@@ -34,6 +34,7 @@
         }
     },
     "scripts": {
+        "compatibility": "@php bin/x-document-compatibility",
         "test": "pest --compact",
         "analyse": "phpstan analyse --no-progress",
         "format": "pint --format agent"

@@ -53,3 +53,10 @@ it('contains no GNE repository business or settlement machinery', function () {
         'XFDF',
     )->and($composer)->not->toContain('3neti/gne', 'illuminate/database', 'inertia', 'vue');
 });
+
+arch('compatibility harness is independent of projection drivers')
+    ->expect('LBHurtado\XDocument\Compatibility')
+    ->not->toUse([
+        'LBHurtado\XDocument\Drivers',
+        'LBHurtado\XDocument\Contracts\DocumentDriver',
+    ]);

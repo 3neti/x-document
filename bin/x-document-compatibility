@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+use LBHurtado\XDocument\Compatibility\VerifyContractCompatibility;
+
+require dirname(__DIR__).'/vendor/autoload.php';
+
+$json = in_array('--json', $argv, true);
+$snapshot = null;
+foreach ($argv as $argument) {
+    if (str_starts_with($argument, '--snapshot=')) {
+        $snapshot = substr($argument, strlen('--snapshot='));
+    }
+}
+
+$report = (new VerifyContractCompatibility)->handle($snapshot);
+
+if ($json) {
+    fwrite(STDOUT, $report->toJson().PHP_EOL);
+} else {
+    $mark = fn (bool $valid): string => $valid ? '✓' : '✗';
+    fwrite(STDOUT, "x-document contract {$report->contract}\n");
+    fwrite(STDOUT, $mark(array_unique(array_column($report->schemas, 'status')) === ['verified'])." Schemas\n");
+    fwrite(STDOUT, $mark(array_unique(array_column($report->fixtures, 'status')) === ['verified'])." Fixtures\n");
+    fwrite(STDOUT, $mark($report->registry['status'] === 'verified')." Schema registry\n");
+    fwrite(STDOUT, $mark($report->isCompatible())." Checksums and compatibility\n");
+    fwrite(STDOUT, 'Snapshot: '.str_replace('_', ' ', $report->snapshot['status'])."\n");
+    foreach ($report->differences as $difference) {
+        fwrite(STDOUT, "- {$difference['code']} {$difference['path']}: {$difference['message']}\n");
+    }
+}
+
+exit($report->isCompatible() ? 0 : 1);

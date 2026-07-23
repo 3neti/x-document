@@ -13,13 +13,26 @@ final readonly class ContractSchemaRegistry
 
     public const Result = 'https://3neti.dev/contracts/x-document/1.0/compilation-result.schema.json';
 
+    /**
+     * @return array<string, string>
+     */
+    public function schemas(): array
+    {
+        $contractPath = dirname(__DIR__, 2).'/resources/contracts/x-document/1.0';
+
+        return [
+            self::Request => $contractPath.'/compilation-request.schema.json',
+            self::ResolvedDocument => $contractPath.'/resolved-document.schema.json',
+            self::Result => $contractPath.'/compilation-result.schema.json',
+        ];
+    }
+
     public function validator(): Validator
     {
         $resolver = new SchemaResolver;
-        $contractPath = dirname(__DIR__, 2).'/resources/contracts/x-document/1.0';
-        $resolver->registerFile(self::Request, $contractPath.'/compilation-request.schema.json');
-        $resolver->registerFile(self::ResolvedDocument, $contractPath.'/resolved-document.schema.json');
-        $resolver->registerFile(self::Result, $contractPath.'/compilation-result.schema.json');
+        foreach ($this->schemas() as $schemaId => $schemaPath) {
+            $resolver->registerFile($schemaId, $schemaPath);
+        }
 
         return new Validator(max_errors: 20, stop_at_first_error: false)->setResolver($resolver);
     }

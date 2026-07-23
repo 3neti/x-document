@@ -1,16 +1,16 @@
 # x-document Compass
 
-**Current milestone:** Package Bootstrap
+**Current milestone:** Contract Compatibility Harness
 
 **North star:** Faithfully express already-resolved document meaning through independent projection drivers.
 
 ## Completed
 
-The standalone Composer package, `LBHurtado\XDocument` namespace, reviewed contract `1.0`, portable DTOs, explicit schema registry, strict validation, minimal driver contracts, canonical JSON driver, fixtures, and architecture tests are established.
+The standalone Composer package, reviewed contract `1.0`, portable DTOs, strict validation, minimal drivers, canonical JSON proof driver, versioned asset manifest, deterministic integrity verifier, optional producer-snapshot comparison, and drift tests are established.
 
 ## Immediate direction
 
-Prove producer-consumer compatibility can be checked automatically without copying implementation code or introducing runtime coupling.
+Harden the JSON proof driver’s explicit output guarantees now that contract drift can be detected independently.
 
 ## Explicit deferrals
 
@@ -18,8 +18,8 @@ Browser, HTML, Markdown, Print, Email, and PDF implementations; Adobe; AcroForms
 
 ## Known risks
 
-The package currently supports one contract version and one proof driver. Nested resolved-document data is intentionally represented as validated portable JSON rather than a large graph of redundant PHP DTOs. Capability negotiation and external contract distribution are not yet automated.
+The package currently supports one frozen contract version and one proof driver. Producer snapshots must be supplied out of band; the harness intentionally performs no network fetch. It compares exact bytes and does not explain semantic compatibility across different contract versions.
 
 ## Recommended next task
 
-**x-document Contract Compatibility Harness** — automate parity checks between producer-published schemas/fixtures and the package-installed contract without adding a runtime dependency on GNE.
+**JSON Driver Hardening** — formalize output/error guarantees and expand driver-specific regressions without introducing rendering.
