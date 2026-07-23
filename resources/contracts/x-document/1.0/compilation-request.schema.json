@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://3neti.dev/contracts/x-document/1.0/compilation-request.schema.json",
+  "title": "x-document compilation request 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "request_identifier", "request_fingerprint", "correlation_identifier", "requested_driver", "requested_capabilities", "options", "document"],
+  "properties": {
+    "contract_version": {"const": "1.0"},
+    "request_identifier": {"type": "string", "pattern": "^XDOC-REQUEST@[a-f0-9]{64}$"},
+    "request_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "correlation_identifier": {"type": "string", "minLength": 1},
+    "requested_driver": {"type": "string", "minLength": 1},
+    "requested_capabilities": {
+      "type": "array",
+      "items": {"enum": ["actions", "attachments", "evidence"]},
+      "uniqueItems": true
+    },
+    "options": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["include_evidence"],
+      "properties": {"include_evidence": {"type": "boolean"}}
+    },
+    "document": {"$ref": "https://3neti.dev/contracts/x-document/1.0/resolved-document.schema.json"}
+  }
+}
