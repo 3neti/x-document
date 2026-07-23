@@ -14,7 +14,7 @@ GNE determines what a document means. x-document determines how that meaning is 
 
 ## Maturity
 
-This is an architectural bootstrap, not a rendering product. Contract `1.0`, portable DTOs, validation, the driver boundary, the JSON proof driver, and an optional compatibility harness are implemented. Browser and PDF are interfaces only.
+This is an architectural bootstrap, not a rendering product. Contract `1.0`, portable DTOs, validation, the JSON reference driver, the read-only browser projection driver, and an optional compatibility harness are implemented. PDF remains an interface only.
 
 ## Installation
 
@@ -35,6 +35,16 @@ $result = (new JsonDocumentDriver)->compile($request);
 ```
 
 The JSON driver returns the complete canonical request as inline `application/json`; it does not render layout. It declares the closed-contract capabilities `actions`, `attachments`, and `evidence`, rejects requests targeted to another driver, and returns `unsupported` when any requested capability is unavailable.
+
+The browser driver mechanically maps resolved meaning into portable, frontend-independent JSON:
+
+```php
+use LBHurtado\XDocument\Drivers\BrowserDocumentDriver;
+
+$result = (new BrowserDocumentDriver)->compile($browserRequest);
+```
+
+Its output media type is `application/vnd.3neti.x-document.browser+json` and its format is `browser/1.0`. It preserves canonical values, derives conservative display strings, retains subject/evidence/action/attachment declarations, and emits stable section and field identities. It produces no HTML, UI, routes, forms, or executable actions.
 
 Successful results are created through invariant-safe factories, validated against the result schema, and include a SHA-256 checksum that serves as the deterministic output identity:
 

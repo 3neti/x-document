@@ -10,7 +10,7 @@ flowchart LR
     V --> D[Portable DTO]
     D --> I[DocumentDriver]
     I --> J[JSON projection]
-    I -. deferred .-> B[Browser projection]
+    I --> B[Browser JSON projection]
     I -. deferred .-> P[PDF projection]
     M[Versioned manifest] --> H[Compatibility harness]
     U[Optional producer snapshot] -. byte comparison .-> H
@@ -30,7 +30,9 @@ An optional snapshot is a package-shaped directory containing the manifest and e
 
 ## Driver boundary
 
-`DocumentDriver` exposes a stable name, deterministic capability list, and `compile()` operation. The JSON driver supports `actions`, `attachments`, and `evidence`, exactly matching the request vocabulary closed in contract `1.0`. It emits the complete request as canonical inline JSON, calculates its checksum and byte length from the final bytes, constructs a valid result state through named factories, and validates that result against the installed result schema. `BrowserDocumentDriver` and `PdfDocumentDriver` define future boundaries only; neither has an implementation.
+`DocumentDriver` exposes a stable name, deterministic capability list, and `compile()` operation. The JSON driver supports `actions`, `attachments`, and `evidence`, exactly matching the request vocabulary closed in contract `1.0`. It emits the complete request as canonical inline JSON, calculates its checksum and byte length from the final bytes, constructs a valid result state through named factories, and validates that result against the installed result schema.
+
+The concrete browser driver is an independent peer. `BuildBrowserProjection` mechanically maps one validated request to format `browser/1.0`; it preserves source order, normalized values, subject identity, evidence links, actions, and attachment metadata. It assigns deterministic section, field, evidence, action, attachment, and projection identities, validates the projection schema, emits canonical inline vendor JSON, and validates the compilation result. Its projection is read-only and contains no frontend, HTML, repository, or action-execution behavior. The PDF boundary remains interface-only.
 
 Drivers do not select artifacts, interpret evidence, determine readiness, or execute actions. Each future driver must remain independently implementable.
 
@@ -39,6 +41,8 @@ Drivers do not select artifacts, interpret evidence, determine readiness, or exe
 `DocumentCompilationStatus` distinguishes `succeeded`, `unsupported`, and `failed`. A succeeded factory requires `DocumentOutput`; unsupported and failed factories cannot carry output. `DocumentOutput::inline()` derives its checksum and byte length, while `referenced()` enforces the closed contract's safe-reference and checksum forms. Private constructors prevent ordinary callers from creating mixed content modes or invalid status/output combinations.
 
 The request fingerprint identifies producer input. For the JSON reference driver, the output checksum is the output identity: it hashes the exact canonical bytes and needs no additional contract field. Object keys are recursively sorted; list order and all document semantics are preserved.
+
+The browser projection has a separate format identity and manifest under `resources/projections/browser/1.0/`; these assets are x-document-owned and are deliberately absent from the GNE contract manifest. Its output checksum identifies the exact projection bytes, while the projection identifier derives from the request fingerprint, driver name, and projection format.
 
 ## Failure principles
 

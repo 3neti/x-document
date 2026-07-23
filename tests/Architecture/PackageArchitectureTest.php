@@ -3,6 +3,7 @@
 use LBHurtado\XDocument\Contracts\BrowserDocumentDriver;
 use LBHurtado\XDocument\Contracts\DocumentDriver;
 use LBHurtado\XDocument\Contracts\PdfDocumentDriver;
+use LBHurtado\XDocument\Drivers\BrowserDocumentDriver as ConcreteBrowserDocumentDriver;
 use LBHurtado\XDocument\Drivers\JsonDocumentDriver;
 
 arch('package source is framework and persistence independent')
@@ -34,12 +35,48 @@ it('keeps JSON compilation free of broad catches rendering persistence and netwo
     );
 });
 
-it('defines browser and PDF boundaries without implementations', function () {
+it('implements only the browser boundary and leaves PDF deferred', function () {
     expect(BrowserDocumentDriver::class)->toBeInterface()
         ->and(PdfDocumentDriver::class)->toBeInterface()
-        ->and(class_exists('LBHurtado\XDocument\Drivers\BrowserDocumentDriver'))->toBeFalse()
+        ->and(ConcreteBrowserDocumentDriver::class)->toImplement(BrowserDocumentDriver::class)
         ->and(class_exists('LBHurtado\XDocument\Drivers\PdfDocumentDriver'))->toBeFalse();
 });
+
+it('keeps browser projection free of frameworks rendering persistence network and broad catches', function () {
+    $root = dirname(__DIR__, 2);
+    $sources = [
+        file_get_contents($root.'/src/Drivers/BrowserDocumentDriver.php'),
+    ];
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root.'/src/Projection/Browser')) as $file) {
+        if ($file instanceof SplFileInfo && $file->isFile()) {
+            $sources[] = file_get_contents($file->getPathname());
+        }
+    }
+
+    expect(implode("\n", $sources))->not->toContain(
+        'catch (Throwable',
+        'CompilationSubject',
+        'ArtifactChain',
+        'Repository',
+        'Eloquent',
+        'Inertia',
+        'Vue',
+        'React',
+        'Blade',
+        'Livewire',
+        'Illuminate\\Http',
+        'PDF',
+        'HTML',
+        'file_put_contents',
+        'curl_',
+    );
+});
+
+arch('browser and JSON drivers remain independent peers')
+    ->expect(ConcreteBrowserDocumentDriver::class)
+    ->not->toUse([JsonDocumentDriver::class, PdfDocumentDriver::class])
+    ->and(JsonDocumentDriver::class)
+    ->not->toUse([ConcreteBrowserDocumentDriver::class, BrowserDocumentDriver::class]);
 
 it('contains no GNE repository business or settlement machinery', function () {
     $root = dirname(__DIR__, 2);

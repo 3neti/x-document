@@ -1,0 +1,138 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://3neti.dev/projections/x-document/browser/1.0/browser-projection.schema.json",
+    "title": "x-document browser projection 1.0",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["projection_format", "identifier", "read_only", "source_document", "title", "audience", "subject", "primary_artifact", "sections", "actions", "attachments", "evidence", "metadata"],
+    "properties": {
+        "projection_format": {"const": "browser/1.0"},
+        "identifier": {"type": "string", "pattern": "^browser:[a-f0-9]{64}$"},
+        "read_only": {"const": true},
+        "source_document": {"$ref": "#/$defs/source_document"},
+        "title": {"type": "string", "minLength": 1},
+        "audience": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "subject": {"$ref": "#/$defs/subject"},
+        "primary_artifact": {"$ref": "#/$defs/primary_artifact"},
+        "sections": {"type": "array", "items": {"$ref": "#/$defs/section"}},
+        "actions": {"type": "array", "items": {"$ref": "#/$defs/action"}},
+        "attachments": {"type": "array", "items": {"$ref": "#/$defs/attachment"}},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+        "metadata": {"type": "object"}
+    },
+    "$defs": {
+        "stable_id": {"type": "string", "pattern": "^(?:section|field|action|attachment|evidence):[A-Za-z0-9._@:-]+$"},
+        "source_document": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["identifier", "definition_identifier", "definition_revision", "resolution_fingerprint", "status"],
+            "properties": {
+                "identifier": {"type": "string", "minLength": 1},
+                "definition_identifier": {"type": "string", "minLength": 1},
+                "definition_revision": {"type": ["integer", "string"]},
+                "resolution_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                "status": {"type": "string", "minLength": 1}
+            }
+        },
+        "subject": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["identifier", "type"],
+            "properties": {
+                "identifier": {"type": "string", "minLength": 1},
+                "type": {"type": "string", "minLength": 1}
+            }
+        },
+        "primary_artifact": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["identifier", "revision", "source_reference", "type"],
+            "properties": {
+                "identifier": {"type": "string", "minLength": 1},
+                "revision": {"type": "integer", "minimum": 1},
+                "source_reference": {"type": "string", "minLength": 1},
+                "type": {"type": "string", "minLength": 1}
+            }
+        },
+        "normalized_value": {
+            "oneOf": [
+                {"type": "object", "additionalProperties": false, "required": ["type", "value"], "properties": {"type": {"const": "null"}, "value": {"type": "null"}}},
+                {"type": "object", "additionalProperties": false, "required": ["type", "value"], "properties": {"type": {"const": "string"}, "value": {"type": "string"}}},
+                {"type": "object", "additionalProperties": false, "required": ["type", "value"], "properties": {"type": {"const": "integer"}, "value": {"type": "integer"}}},
+                {"type": "object", "additionalProperties": false, "required": ["type", "value"], "properties": {"type": {"const": "boolean"}, "value": {"type": "boolean"}}},
+                {"type": "object", "additionalProperties": false, "required": ["type", "value"], "properties": {"type": {"const": "list"}, "value": {"type": "array", "items": {"$ref": "#/$defs/normalized_value"}}}},
+                {"type": "object", "additionalProperties": false, "required": ["type", "value"], "properties": {"type": {"const": "map"}, "value": {"type": "object", "additionalProperties": {"$ref": "#/$defs/normalized_value"}}}}
+            ]
+        },
+        "field": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "id", "source_identifier", "label", "canonical_value", "display_value", "evidence_ids", "metadata"],
+            "properties": {
+                "type": {"const": "field"},
+                "id": {"$ref": "#/$defs/stable_id"},
+                "source_identifier": {"type": "string", "minLength": 1},
+                "label": {"type": "string", "minLength": 1},
+                "canonical_value": {"$ref": "#/$defs/normalized_value"},
+                "display_value": {"type": ["string", "null"]},
+                "evidence_ids": {"type": "array", "items": {"$ref": "#/$defs/stable_id"}, "uniqueItems": true},
+                "metadata": {"type": "object"}
+            }
+        },
+        "section": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "source_identifier", "label", "elements", "metadata"],
+            "properties": {
+                "id": {"$ref": "#/$defs/stable_id"},
+                "source_identifier": {"type": "string", "minLength": 1},
+                "label": {"type": "string", "minLength": 1},
+                "elements": {"type": "array", "items": {"$ref": "#/$defs/field"}},
+                "metadata": {"type": "object"}
+            }
+        },
+        "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "artifact_identifier", "artifact_revision", "artifact_type", "subject_identifier", "source_reference", "payload_path"],
+            "properties": {
+                "id": {"$ref": "#/$defs/stable_id"},
+                "artifact_identifier": {"type": "string", "minLength": 1},
+                "artifact_revision": {"type": ["integer", "string"]},
+                "artifact_type": {"type": "string", "minLength": 1},
+                "subject_identifier": {"type": "string", "minLength": 1},
+                "source_reference": {"type": "string", "minLength": 1},
+                "payload_path": {"type": ["string", "null"]}
+            }
+        },
+        "action": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "source_identifier", "label", "type", "enabled", "metadata"],
+            "properties": {
+                "id": {"$ref": "#/$defs/stable_id"},
+                "source_identifier": {"type": "string", "minLength": 1},
+                "label": {"type": "string", "minLength": 1},
+                "type": {"type": "string", "minLength": 1},
+                "enabled": {"type": "boolean"},
+                "metadata": {"type": "object"}
+            }
+        },
+        "attachment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "source_identifier", "name", "media_type", "byte_length", "checksum", "source_reference", "disposition", "metadata"],
+            "properties": {
+                "id": {"$ref": "#/$defs/stable_id"},
+                "source_identifier": {"type": "string", "minLength": 1},
+                "name": {"type": "string", "minLength": 1},
+                "media_type": {"type": ["string", "null"]},
+                "byte_length": {"type": ["integer", "null"], "minimum": 0},
+                "checksum": {"type": ["string", "null"]},
+                "source_reference": {"type": ["string", "null"]},
+                "disposition": {"type": "string", "minLength": 1},
+                "metadata": {"type": "object"}
+            }
+        }
+    }
+}

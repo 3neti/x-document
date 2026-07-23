@@ -8,7 +8,14 @@
 | Document Compilation Request | Validated contract containing one resolved document and explicit projection request. |
 | Document Driver | Independent compiler backend that converts a request into one projection result. |
 | JSON Driver | Proof driver that returns canonical request JSON without layout or rendering. |
-| Browser Driver | Deferred browser-projection boundary; interface only. |
+| Browser Driver | Concrete projection driver named `browser` that emits portable read-only browser JSON. |
+| Browser Projection | Frontend-independent structured expression of resolved meaning; format `browser/1.0`. |
+| Browser Section | Ordered source section containing ordered browser fields. |
+| Browser Field | Read-only projection of a source field with stable identity, canonical value, display value, evidence links, and metadata. |
+| Canonical Value | Original normalized contract value preserved without presentation loss. |
+| Display Value | Contract-provided string when available, otherwise a conservative deterministic representation; never a replacement for canonical value. |
+| Projection Identity | Deterministic `browser:` identity derived from request fingerprint, driver name, and projection format. |
+| Projection Manifest | x-document-owned checksum inventory for one projection format; separate from the producer contract manifest. |
 | PDF Driver | Deferred PDF-projection boundary; interface only. |
 | Document Compilation Result | Driver outcome containing status and an optional output. |
 | Document Compilation Status | External result state: succeeded, unsupported, or failed; never a business-readiness state. |

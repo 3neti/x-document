@@ -1,0 +1,10 @@
+{
+    "projection_format": "browser/1.0",
+    "schemas": [
+        {
+            "id": "https://3neti.dev/projections/x-document/browser/1.0/browser-projection.schema.json",
+            "file": "browser-projection.schema.json",
+            "sha256": "218a7918ebf9f0352f8275187f504f2dde606debb711e331bb78e4c09023f27b"
+        }
+    ]
+}
