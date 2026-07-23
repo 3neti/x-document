@@ -9,5 +9,8 @@ interface DocumentDriver
 {
     public function name(): string;
 
+    /** @return list<string> */
+    public function capabilities(): array;
+
     public function compile(DocumentCompilationRequest $request): DocumentCompilationResult;
 }

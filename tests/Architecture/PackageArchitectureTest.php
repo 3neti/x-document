@@ -19,6 +19,21 @@ arch('JSON driver implements only the generic document driver')
     ->toImplement(DocumentDriver::class)
     ->not->toUse([BrowserDocumentDriver::class, PdfDocumentDriver::class]);
 
+it('keeps JSON compilation free of broad catches rendering persistence and network access', function () {
+    $source = file_get_contents(dirname(__DIR__, 2).'/src/Drivers/JsonDocumentDriver.php');
+
+    expect($source)->not->toContain(
+        'catch (Throwable',
+        'Repository',
+        'Eloquent',
+        'PDF',
+        'HTML',
+        'Http',
+        'file_put_contents',
+        'curl_',
+    );
+});
+
 it('defines browser and PDF boundaries without implementations', function () {
     expect(BrowserDocumentDriver::class)->toBeInterface()
         ->and(PdfDocumentDriver::class)->toBeInterface()

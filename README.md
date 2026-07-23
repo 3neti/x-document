@@ -34,7 +34,17 @@ $request = (new ValidateDocumentCompilationRequest)->handleJson($contractJson);
 $result = (new JsonDocumentDriver)->compile($request);
 ```
 
-The JSON driver returns the canonical request as `application/json`; it does not render layout.
+The JSON driver returns the complete canonical request as inline `application/json`; it does not render layout. It declares the closed-contract capabilities `actions`, `attachments`, and `evidence`, rejects requests targeted to another driver, and returns `unsupported` when any requested capability is unavailable.
+
+Successful results are created through invariant-safe factories, validated against the result schema, and include a SHA-256 checksum that serves as the deterministic output identity:
+
+```php
+$result->status;                   // DocumentCompilationStatus::Succeeded
+$result->output?->checksum;        // sha256:<canonical-output-bytes>
+$result->output?->byteLength;      // exact byte length
+```
+
+`DocumentCompilationResult::succeeded()`, `unsupported()`, and `failed()` prevent invalid status/output combinations. The JSON driver currently has no classified operational failure: unsupported requests become results, while serialization defects and unexpected implementation failures propagate.
 
 ## Development
 

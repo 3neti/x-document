@@ -1,16 +1,16 @@
 # x-document Compass
 
-**Current milestone:** Contract Compatibility Harness
+**Current milestone:** JSON Driver Hardening
 
 **North star:** Faithfully express already-resolved document meaning through independent projection drivers.
 
 ## Completed
 
-The standalone Composer package, reviewed contract `1.0`, portable DTOs, strict validation, minimal drivers, canonical JSON proof driver, versioned asset manifest, deterministic integrity verifier, optional producer-snapshot comparison, and drift tests are established.
+The standalone package, frozen contract `1.0`, compatibility harness, invariant-safe result/output factories, explicit status and capabilities, target/capability rejection, canonical semantic round-trip, deterministic output identity, and post-construction result validation are established.
 
 ## Immediate direction
 
-Harden the JSON proof driver’s explicit output guarantees now that contract drift can be detected independently.
+Introduce the first browser projection contract without weakening driver independence or adding business interpretation.
 
 ## Explicit deferrals
 
@@ -18,8 +18,8 @@ Browser, HTML, Markdown, Print, Email, and PDF implementations; Adobe; AcroForms
 
 ## Known risks
 
-The package currently supports one frozen contract version and one proof driver. Producer snapshots must be supplied out of band; the harness intentionally performs no network fetch. It compares exact bytes and does not explain semantic compatibility across different contract versions.
+The package supports one frozen contract version and one inline proof driver. Contract `1.0` warnings remain strings and structured unsupported details live in result metadata. The JSON driver has no expected operational failure category today, and driver versioning and dispatch remain deferred.
 
 ## Recommended next task
 
-**JSON Driver Hardening** — formalize output/error guarantees and expand driver-specific regressions without introducing rendering.
+**Browser Driver Contract and Projection Bootstrap** — define a browser expression of the validated request without repository, lifecycle, or rendering-engine coupling.

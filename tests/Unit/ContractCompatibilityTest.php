@@ -2,6 +2,7 @@
 
 use LBHurtado\XDocument\Contract\ContractSchemaRegistry;
 use LBHurtado\XDocument\Contract\ContractVersion;
+use LBHurtado\XDocument\Contract\DocumentCompilationStatus;
 use LBHurtado\XDocument\Contract\ValidateDocumentCompilationRequest;
 use LBHurtado\XDocument\Drivers\JsonDocumentDriver;
 use LBHurtado\XDocument\Exceptions\InvalidDocumentContract;
@@ -36,7 +37,7 @@ it('passes each fixture through the JSON driver without changing its contract me
     $resultValidation = (new ContractSchemaRegistry)->validator()->validate($resultPayload, ContractSchemaRegistry::Result);
 
     expect($result->driver)->toBe('json')
-        ->and($result->status)->toBe('succeeded')
+        ->and($result->status)->toBe(DocumentCompilationStatus::Succeeded)
         ->and($compiled)->toBe($expected)
         ->and($resultValidation->isValid())->toBeTrue();
 })->with([

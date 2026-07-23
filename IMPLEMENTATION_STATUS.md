@@ -5,8 +5,10 @@
 | Contract 1.0 | Reviewed request, resolved-document, and result schemas with local stable-ID registry | Fixture and schema tests | Version 1.0 only | Implemented | Preserve compatibility |
 | Portable DTOs | Request, resolved document, result, output, and version objects | Unit tests | Deliberately retain validated nested payload | Implemented | Evolve only with contract versioning |
 | Validation | Opis schema validation with explicit unsupported-version failure | Positive and negative tests | No downgrade negotiation | Implemented | Keep strict |
-| Driver contract | Minimal `DocumentDriver`; Browser/PDF boundaries are interfaces only | Architecture tests | No capability negotiation | Implemented | Preserve independence |
-| JSON driver | Canonical request JSON output with checksum and byte length | Fixture round-trip tests | No formatting or layout | Implemented | Harden output guarantees |
+| Driver contract | Stable name, deterministic capabilities, and compile operation; Browser/PDF boundaries remain interfaces only | Architecture and capability tests | No registry or package discovery | Implemented | Preserve independence |
+| Result model | Backed status enum and named succeeded/unsupported/failed factories with invariant-safe output ownership | Factory and negative tests | Contract 1.0 warnings remain strings | Implemented | Keep schema-compatible |
+| Output model | Private construction with inline/referenced factories, safe references, derived inline checksum and byte length | Invariant and negative tests | No binary content or persistence | Implemented | Keep transport-only |
+| JSON driver | Complete canonical request round-trip, target/capability checks, deterministic checksum identity, and result-schema validation | Three-fixture semantic and deterministic tests | No formatting, layout, or classified operational failure | Implemented | Reference future drivers |
 | Contract manifest | Contract `1.0` schema IDs, package-relative assets, and exact SHA-256 checksums | Integrity and drift tests | One frozen version | Implemented | Change only deliberately |
 | Compatibility harness | Deterministic local integrity report and optional package-shaped snapshot comparison | Missing, modified, duplicate, orphan, canonicalization, registry, and snapshot tests | Snapshot supplied manually; byte compatibility only | Implemented | Run in CI |
 | Browser rendering | Interface only | Architecture checks | No implementation | Deferred | Deliberate future slice |

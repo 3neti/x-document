@@ -30,13 +30,19 @@ An optional snapshot is a package-shaped directory containing the manifest and e
 
 ## Driver boundary
 
-`DocumentDriver` has only a stable name and `compile()` operation. The JSON driver proves the boundary by returning canonical request JSON in a schema-valid result. `BrowserDocumentDriver` and `PdfDocumentDriver` define future boundaries only; neither has an implementation.
+`DocumentDriver` exposes a stable name, deterministic capability list, and `compile()` operation. The JSON driver supports `actions`, `attachments`, and `evidence`, exactly matching the request vocabulary closed in contract `1.0`. It emits the complete request as canonical inline JSON, calculates its checksum and byte length from the final bytes, constructs a valid result state through named factories, and validates that result against the installed result schema. `BrowserDocumentDriver` and `PdfDocumentDriver` define future boundaries only; neither has an implementation.
 
 Drivers do not select artifacts, interpret evidence, determine readiness, or execute actions. Each future driver must remain independently implementable.
 
+## Result and output invariants
+
+`DocumentCompilationStatus` distinguishes `succeeded`, `unsupported`, and `failed`. A succeeded factory requires `DocumentOutput`; unsupported and failed factories cannot carry output. `DocumentOutput::inline()` derives its checksum and byte length, while `referenced()` enforces the closed contract's safe-reference and checksum forms. Private constructors prevent ordinary callers from creating mixed content modes or invalid status/output combinations.
+
+The request fingerprint identifies producer input. For the JSON reference driver, the output checksum is the output identity: it hashes the exact canonical bytes and needs no additional contract field. Object keys are recursively sorted; list order and all document semantics are preserved.
+
 ## Failure principles
 
-Malformed input and unsupported versions fail before driver invocation. Drivers receive only validated `DocumentCompilationRequest` objects. No failure is silently normalized into different meaning.
+Malformed input and unsupported versions fail before driver invocation. A valid request targeted to another driver or asking for an unsupported capability returns an `unsupported` result with safe deterministic details. A future expected operational failure may use `failed`; the JSON driver currently has no such failure. Result-schema violations and unexpected serialization or implementation defects propagate. No broad catch converts defects into normal outcomes.
 
 ## Dependency direction
 

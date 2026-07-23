@@ -11,7 +11,13 @@
 | Browser Driver | Deferred browser-projection boundary; interface only. |
 | PDF Driver | Deferred PDF-projection boundary; interface only. |
 | Document Compilation Result | Driver outcome containing status and an optional output. |
+| Document Compilation Status | External result state: succeeded, unsupported, or failed; never a business-readiness state. |
 | Document Output | Portable output metadata and exactly one content form permitted by contract `1.0`. |
+| Driver Capability | Stable projection behavior a driver declares and may be explicitly requested; JSON supports actions, attachments, and evidence preservation. |
+| Unsupported Result | Valid request the selected driver cannot fulfill because its target or requested capability is unsupported. |
+| Failed Result | Safe representation of an expected operational driver failure after request acceptance; not an implementation defect. |
+| Output Identity | For the JSON driver, the SHA-256 checksum of the exact canonical output bytes. |
+| Semantic Round Trip | Canonical JSON may reorder object keys but preserves every request value, list order, and resolved-document meaning. |
 | Canonical JSON | JSON with recursively sorted object keys and preserved list order. |
 | Schema Registry | Local mapping from stable contract schema IDs to installed schema files. |
 | Compatibility Fixture | Reviewed request JSON used to prove producer-consumer compatibility. |
