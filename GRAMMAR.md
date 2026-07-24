@@ -16,6 +16,13 @@
 | Display Value | Contract-provided string when available, otherwise a conservative deterministic representation; never a replacement for canonical value. |
 | Projection Identity | Deterministic `browser:` identity derived from request fingerprint, driver name, and projection format. |
 | Projection Manifest | x-document-owned checksum inventory for one projection format; separate from the producer contract manifest. |
+| Browser HTML Adapter | Expression adapter that consumes only `BrowserProjection` and emits complete deterministic HTML. |
+| Browser HTML Format | Versioned HTML expression grammar `browser-html/1.0`; distinct from contract `1.0` and browser projection `browser/1.0`. |
+| HTML Output Identity | SHA-256 checksum of the exact emitted HTML bytes. |
+| Structural Class | Stable `x-document__*` styling hook with no bundled presentation behavior. |
+| Inert Action | Action declaration rendered as descriptive list content, never as a button, link, form, or executable command. |
+| Escaping Boundary | Projection text becomes escaped HTML text; arbitrary markup is never accepted or sanitized. |
+| Basic Semantic Accessibility | One main region, logical headings, definition lists, descriptive lists, and deterministic ARIA relationships; not a claim of WCAG conformance. |
 | PDF Driver | Deferred PDF-projection boundary; interface only. |
 | Document Compilation Result | Driver outcome containing status and an optional output. |
 | Document Compilation Status | External result state: succeeded, unsupported, or failed; never a business-readiness state. |

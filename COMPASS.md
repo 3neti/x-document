@@ -1,25 +1,25 @@
 # x-document Compass
 
-**Current milestone:** Browser Driver Contract and Projection Bootstrap
+**Current milestone:** Browser HTML Projection Adapter
 
 **North star:** Faithfully express already-resolved document meaning through independent projection drivers.
 
 ## Completed
 
-The standalone package, frozen contract `1.0`, compatibility harness, hardened JSON reference driver, and frontend-independent browser projection format `browser/1.0` are established. Browser output is canonical vendor JSON with stable identities, preserved meaning, and schema validation.
+The standalone package, frozen contract `1.0`, compatibility harness, hardened JSON reference driver, frontend-independent browser projection `browser/1.0`, and deterministic semantic HTML adapter `browser-html/1.0` are established.
 
 ## Immediate direction
 
-Introduce a browser HTML projection adapter over `BrowserProjection` without changing the portable model or adding a browser application.
+Define a restrained styling contract over stable HTML structural classes without coupling the adapter to a theme, frontend framework, or business semantics.
 
 ## Explicit deferrals
 
-HTML, Vue, React, Inertia, Blade, Livewire, browser editing and interaction, Markdown, Print, Email, and PDF implementations; Adobe; AcroForms; XFDF; signatures; synchronization; batch compilation; storage; queues; remote execution; webhooks; binary transport; OCR; AI; settlement; x-change; action execution.
+CSS themes, responsive layout systems, Vue, React, Inertia, Blade, Livewire, JavaScript, browser editing and interaction, localization, hyperlinks, Markdown, Print, Email, and PDF implementations; Adobe; AcroForms; XFDF; signatures; synchronization; batch compilation; storage; queues; remote execution; webhooks; binary transport; OCR; AI; settlement; x-change; action execution.
 
 ## Known risks
 
-The package supports one frozen contract version and two inline JSON-producing drivers. Contract `1.0` capabilities limit public browser capability declarations to actions, attachments, and evidence. Display values are conservative rather than localized; attachments are metadata-only; the projection supports fields rather than a widget/layout vocabulary. Driver dispatch remains deferred.
+The package supports one frozen contract version, two inline JSON-producing drivers, and one HTML adapter. HTML uses fixed `en`, conservative upstream display values, no stylesheet, no arbitrary raw markup, no source-reference links, and metadata-only attachments. Its accessibility is structural rather than certified. Driver dispatch remains deferred.
 
 ## Recommended next task
 
-**Browser HTML Projection Adapter** — express the stable read-only browser projection as sanitized HTML without changing resolved meaning or introducing a frontend application.
+**Browser HTML Styling Contract** — define optional, versioned styling hooks over the stable semantic HTML without changing projection meaning or introducing a frontend framework.

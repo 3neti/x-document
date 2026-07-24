@@ -83,7 +83,7 @@ final readonly class DocumentOutput
 
     private static function assertMediaType(string $mediaType): void
     {
-        if (preg_match('/^[^\s\/]+\/[^\s\/]+$/', $mediaType) !== 1) {
+        if (preg_match('/^[^\s\/;]+\/[^\s\/;]+(?:;\s*[A-Za-z0-9!#$&^_.+-]+=[A-Za-z0-9!#$&^_.+-]+)*$/', $mediaType) !== 1) {
             throw new InvalidDocumentOutput('Document output media type is invalid.');
         }
     }

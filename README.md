@@ -14,7 +14,7 @@ GNE determines what a document means. x-document determines how that meaning is 
 
 ## Maturity
 
-This is an architectural bootstrap, not a rendering product. Contract `1.0`, portable DTOs, validation, the JSON reference driver, the read-only browser projection driver, and an optional compatibility harness are implemented. PDF remains an interface only.
+This is an architectural bootstrap, not a web application. Contract `1.0`, portable DTOs, validation, the JSON reference driver, the read-only browser projection driver, its deterministic HTML adapter, and an optional compatibility harness are implemented. PDF remains an interface only.
 
 ## Installation
 
@@ -45,6 +45,18 @@ $result = (new BrowserDocumentDriver)->compile($browserRequest);
 ```
 
 Its output media type is `application/vnd.3neti.x-document.browser+json` and its format is `browser/1.0`. It preserves canonical values, derives conservative display strings, retains subject/evidence/action/attachment declarations, and emits stable section and field identities. It produces no HTML, UI, routes, forms, or executable actions.
+
+HTML is a separate expression over the browser projection:
+
+```php
+use LBHurtado\XDocument\Browser\Html\BrowserHtmlProjectionAdapter;
+use LBHurtado\XDocument\Projection\Browser\BuildBrowserProjection;
+
+$projection = (new BuildBrowserProjection)->handle($browserRequest);
+$htmlOutput = (new BrowserHtmlProjectionAdapter)->adapt($projection);
+```
+
+The adapter emits complete `browser-html/1.0` documents as inline `text/html; charset=utf-8`. Output has fixed whitespace, semantic read-only structure, stable IDs, escaped text, an exact checksum, and no CSS, JavaScript, links, controls, repository access, or business interpretation.
 
 Successful results are created through invariant-safe factories, validated against the result schema, and include a SHA-256 checksum that serves as the deterministic output identity:
 

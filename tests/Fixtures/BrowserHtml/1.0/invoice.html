@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reservation Invoice</title>
+</head>
+<body>
+    <main id="browser:4f3b9921f703baa594c377208697e5579fdc9d5c0d53276da4e94ea81320456f" class="x-document" data-x-document-format="browser-html/1.0" data-x-document-projection-id="browser:4f3b9921f703baa594c377208697e5579fdc9d5c0d53276da4e94ea81320456f">
+        <header class="x-document__header">
+            <h1>Reservation Invoice</h1>
+            <dl class="x-document__summary">
+                <dt>Subject</dt>
+                <dd>PropertyReservation RESERVATION-000001</dd>
+                <dt>Primary artifact</dt>
+                <dd>Invoice ARTIFACT-INVOICE-000001</dd>
+                <dt>Audience</dt>
+                <dd>applicant, billing-operator</dd>
+                <dt>Projection</dt>
+                <dd>browser/1.0 (read-only)</dd>
+            </dl>
+        </header>
+        <section id="section:reservation" class="x-document__section" aria-labelledby="section:reservation-heading">
+            <h2 id="section:reservation-heading">Reservation</h2>
+            <dl class="x-document__fields">
+                <div id="field:reservation.applicant_alias" class="x-document__field" data-x-document-field-id="field:reservation.applicant_alias" data-x-document-value-type="string">
+                    <dt class="x-document__field-label">Applicant</dt>
+                    <dd class="x-document__field-value" aria-describedby="evidence:71f475bc1ce7e42f8f66592c0e48f134">Ana Example</dd>
+                </div>
+                <div id="field:reservation.lot_identifier" class="x-document__field" data-x-document-field-id="field:reservation.lot_identifier" data-x-document-value-type="string">
+                    <dt class="x-document__field-label">Property</dt>
+                    <dd class="x-document__field-value" aria-describedby="evidence:36f034a4a05f9c683db74951f7a2e635">LOT-037</dd>
+                </div>
+            </dl>
+        </section>
+        <section id="section:charges" class="x-document__section" aria-labelledby="section:charges-heading">
+            <h2 id="section:charges-heading">Charges</h2>
+            <dl class="x-document__fields">
+                <div id="field:charges.amount" class="x-document__field" data-x-document-field-id="field:charges.amount" data-x-document-value-type="integer">
+                    <dt class="x-document__field-label">Invoice amount</dt>
+                    <dd class="x-document__field-value" aria-describedby="evidence:20556a14042be944ba0450b03d0fa714">50000</dd>
+                </div>
+                <div id="field:charges.currency" class="x-document__field" data-x-document-field-id="field:charges.currency" data-x-document-value-type="string">
+                    <dt class="x-document__field-label">Currency</dt>
+                    <dd class="x-document__field-value" aria-describedby="evidence:9636bcff8def27c47e1ecd50c4123578">PHP</dd>
+                </div>
+            </dl>
+        </section>
+        <section class="x-document__actions" aria-labelledby="x-document-actions-heading">
+            <h2 id="x-document-actions-heading">Actions</h2>
+            <ul>
+                <li id="action:submit_payment_evidence" class="x-document__action x-document__action--enabled">
+                    <span class="x-document__action-label">Submit payment evidence</span>
+                    <span class="x-document__action-type">submit_evidence</span>
+                </li>
+            </ul>
+        </section>
+        <section class="x-document__evidence" aria-labelledby="x-document-evidence-heading">
+            <h2 id="x-document-evidence-heading">Evidence</h2>
+            <ul>
+                <li id="evidence:2083510f2ca6650168e13fb3a0ee9e33" class="x-document__evidence-item">Application ARTIFACT-APPLICATION-000001, revision 1, subject RESERVATION-000001</li>
+                <li id="evidence:15fc1dd29c34b69e0bd9f9948a53507e" class="x-document__evidence-item">Invoice ARTIFACT-INVOICE-000001, revision 2, subject RESERVATION-000001</li>
+                <li id="evidence:71f475bc1ce7e42f8f66592c0e48f134" class="x-document__evidence-item">Application ARTIFACT-APPLICATION-000001, revision 1, subject RESERVATION-000001, payload payload.applicant_alias</li>
+                <li id="evidence:36f034a4a05f9c683db74951f7a2e635" class="x-document__evidence-item">Application ARTIFACT-APPLICATION-000001, revision 1, subject RESERVATION-000001, payload payload.lot_identifier</li>
+                <li id="evidence:20556a14042be944ba0450b03d0fa714" class="x-document__evidence-item">Invoice ARTIFACT-INVOICE-000001, revision 2, subject RESERVATION-000001, payload payload.amount</li>
+                <li id="evidence:9636bcff8def27c47e1ecd50c4123578" class="x-document__evidence-item">Invoice ARTIFACT-INVOICE-000001, revision 2, subject RESERVATION-000001, payload payload.currency</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

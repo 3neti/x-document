@@ -1,5 +1,8 @@
 <?php
 
+use LBHurtado\XDocument\Browser\Html\BrowserHtmlProjectionAdapter;
+use LBHurtado\XDocument\Contract\DocumentCompilationRequest;
+use LBHurtado\XDocument\Contract\ResolvedDocument;
 use LBHurtado\XDocument\Contracts\BrowserDocumentDriver;
 use LBHurtado\XDocument\Contracts\DocumentDriver;
 use LBHurtado\XDocument\Contracts\PdfDocumentDriver;
@@ -77,6 +80,43 @@ arch('browser and JSON drivers remain independent peers')
     ->not->toUse([JsonDocumentDriver::class, PdfDocumentDriver::class])
     ->and(JsonDocumentDriver::class)
     ->not->toUse([ConcreteBrowserDocumentDriver::class, BrowserDocumentDriver::class]);
+
+arch('HTML adapter consumes only browser projection and output boundaries')
+    ->expect(BrowserHtmlProjectionAdapter::class)
+    ->not->toUse([
+        ResolvedDocument::class,
+        DocumentCompilationRequest::class,
+        ConcreteBrowserDocumentDriver::class,
+        JsonDocumentDriver::class,
+    ]);
+
+it('keeps HTML adaptation free of business frameworks scripts persistence network and broad catches', function () {
+    $source = file_get_contents(dirname(__DIR__, 2).'/src/Browser/Html/BrowserHtmlProjectionAdapter.php');
+
+    expect($source)->not->toContain(
+        'catch (Throwable',
+        'CompilationSubject',
+        'ArtifactChain',
+        'Repository',
+        'Eloquent',
+        'Inertia',
+        'Vue',
+        'React',
+        'Blade',
+        'Livewire',
+        'Illuminate\\Http',
+        'ResolvedDocument',
+        'DocumentCompilationRequest',
+        '<script',
+        '<button',
+        '<form',
+        'href=',
+        'onclick=',
+        'PDF',
+        'file_put_contents',
+        'curl_',
+    );
+});
 
 it('contains no GNE repository business or settlement machinery', function () {
     $root = dirname(__DIR__, 2);

@@ -11,6 +11,7 @@ flowchart LR
     D --> I[DocumentDriver]
     I --> J[JSON projection]
     I --> B[Browser JSON projection]
+    B --> A[Browser HTML adapter]
     I -. deferred .-> P[PDF projection]
     M[Versioned manifest] --> H[Compatibility harness]
     U[Optional producer snapshot] -. byte comparison .-> H
@@ -44,10 +45,18 @@ The request fingerprint identifies producer input. For the JSON reference driver
 
 The browser projection has a separate format identity and manifest under `resources/projections/browser/1.0/`; these assets are x-document-owned and are deliberately absent from the GNE contract manifest. Its output checksum identifies the exact projection bytes, while the projection identifier derives from the request fingerprint, driver name, and projection format.
 
+## HTML adapter boundary
+
+`BrowserHtmlProjectionAdapter` accepts only a validated `BrowserProjection`. It never sees `DocumentCompilationRequest`, `ResolvedDocument`, or a repository. It maps the existing section, field, subject, action, attachment, and evidence structures into complete semantic HTML format `browser-html/1.0`; it does not perform another semantic compilation.
+
+Serialization uses fixed indentation, LF line endings, stable source order, fixed attribute order, UTF-8, and a final newline. Projection validation rejects malformed UTF-8 before adaptation; every accepted value entering text or an attribute then passes through `htmlspecialchars()` with `ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5` as defense in depth. There is no raw-HTML input or sanitizer because markup is never accepted. The language is conservatively fixed to `en`; no locale is inferred.
+
+The adapter emits one `<main>`, logical headings, definition lists for fields and lists for inert actions, attachment metadata, and evidence provenance. It adds structural class hooks but no stylesheet. Source references are neither linked nor rendered. `DocumentOutput::inline()` derives the exact HTML checksum and byte length. Its x-document-owned manifest lives under `resources/projections/browser-html/1.0/` and is not part of producer contract compatibility.
+
 ## Failure principles
 
 Malformed input and unsupported versions fail before driver invocation. A valid request targeted to another driver or asking for an unsupported capability returns an `unsupported` result with safe deterministic details. A future expected operational failure may use `failed`; the JSON driver currently has no such failure. Result-schema violations and unexpected serialization or implementation defects propagate. No broad catch converts defects into normal outcomes.
 
 ## Dependency direction
 
-The package depends on PHP and Opis JSON Schema. Pest, Pint, and PHPStan are development tools. It has no GNE, Eloquent, HTTP, Vue, Inertia, x-change, storage, queue, or rendering dependency.
+The package depends on PHP and Opis JSON Schema. Pest, Pint, and PHPStan are development tools. It has no GNE, Eloquent, HTTP, Vue, React, Inertia, template engine, x-change, storage, queue, or network dependency.
